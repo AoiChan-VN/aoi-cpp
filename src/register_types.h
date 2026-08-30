@@ -1,7 +1,9 @@
-#ifndef EXAMPLE_REGISTER_TYPES_H
-#define EXAMPLE_REGISTER_TYPES_H
+#ifndef AOI_REGISTER_TYPES_H
+#define AOI_REGISTER_TYPES_H
 
-void initialize_gdextension_types();
-void uninitialize_gdextension_types();
+#include <godot_cpp/core/class_db.hpp>
 
-#endif // EXAMPLE_REGISTER_TYPES_H
+void initialize_aoi_native_module(godot::ModuleInitializationLevel p_level);
+void uninitialize_aoi_native_module(godot::ModuleInitializationLevel p_level);
+
+#endif
