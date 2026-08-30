@@ -2,15 +2,16 @@
 
 import os
 import sys
-from methods import print_error
 
 libname = "aoi_native"
 projectdir = "project"
 
 localEnv = Environment(tools=["default"], PLATFORM="")
 
-customs = ["custom.py"]
-customs = [os.path.abspath(path) for path in customs]
+# Xử lý custom.py một cách an toàn (không bắt buộc phải tồn tại)
+customs = []
+if os.path.exists("custom.py"):
+    customs = [os.path.abspath("custom.py")]
 
 opts = Variables(customs, ARGUMENTS)
 opts.Update(localEnv)
@@ -18,10 +19,11 @@ Help(opts.GenerateHelpText(localEnv))
 
 env = localEnv.Clone()
 
+# Kiểm tra godot-cpp submodule
 if not (os.path.isdir("godot-cpp") and os.listdir("godot-cpp")):
-    print_error("""godot-cpp is not available within this folder, as Git submodules haven't been initialized.
-Run the following command to download godot-cpp:
-git submodule update --init --recursive""")
+    print("ERROR: godot-cpp is not available within this folder, as Git submodules haven't been initialized.")
+    print("Run the following command to download godot-cpp:")
+    print("git submodule update --init --recursive")
     sys.exit(1)
 
 env = SConscript("godot-cpp/SConstruct", {"env": env, "customs": customs})
